@@ -1,0 +1,120 @@
+@page
+@model WebApp.Pages.Games.PlayModel
+@{
+    ViewData["Title"] = "Play";
+}
+
+@if (Model.Brain is null)
+{
+    <p>Game not found.</p>
+}
+else
+{
+    var brain = Model.Brain;
+    var config = brain.Config;
+    var gameOver = brain.IsGameOver;
+    var isMyTurn = brain.CurrentPlayer == Model.MySlot && !gameOver;
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="message">@Model.Message</div>
+    }
+
+    @if (gameOver)
+    {
+        <div class="game-over-banner">
+            @if (brain.IsDraw)
+            {
+                <span>Game Over — It's a Draw!</span>
+            }
+            else
+            {
+                var winnerName = brain.Winner == 0 ? config.Player1Name : config.Player2Name;
+                <span>@winnerName Wins!</span>
+            }
+        </div>
+    }
+    else
+    {
+        var currentName = brain.CurrentPlayer == 0 ? config.Player1Name : config.Player2Name;
+        <div class="turn-indicator">
+            <span class="color-dot player-@brain.CurrentPlayer"></span>
+            <span>@currentName's turn</span>
+            @if (!isMyTurn && Model.MySlot >= 0)
+            {
+                <span>(waiting for opponent...)</span>
+            }
+        </div>
+    }
+
+    <div id="game-board"
+         class="board-container"
+         data-game-id="@Model.GameId"
+         data-my-slot="@Model.MySlot"
+         data-current-player="@brain.CurrentPlayer"
+         data-game-over="@gameOver.ToString().ToLower()">
+        <table class="board-table">
+            <thead>
+                <tr>
+                    @for (var c = 0; c < brain.Columns; c++)
+                    {
+                        <th>
+                            @if (isMyTurn && brain.IsColumnAvailable(c))
+                            {
+                                <form method="post" style="display:inline;">
+                                    <input type="hidden" name="gameId" value="@Model.GameId" />
+                                    <input type="hidden" name="column" value="@c" />
+                                    <button type="submit" class="drop-btn">&#9660;</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <button class="drop-btn" disabled>&#9660;</button>
+                            }
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (var r = 0; r < brain.Rows; r++)
+                {
+                    <tr>
+                        @for (var c = 0; c < brain.Columns; c++)
+                        {
+                            var cell = brain.GetCell(r, c);
+                            var cssClass = cell switch
+                            {
+                                0 => "player-0",
+                                1 => "player-1",
+                                _ => ""
+                            };
+                            var isLastMove = r == Model.LastMoveRow && c == Model.LastMoveCol;
+                            if (isLastMove && cell.HasValue)
+                            {
+                                cssClass += " drop-animate";
+                            }
+                            <td class="@cssClass"></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top:1rem; display:flex; gap:1rem;">
+        @if (!gameOver)
+        {
+            <form method="post" asp-page-handler="Save" style="display:flex; gap:0.5rem;">
+                <input type="hidden" name="gameId" value="@Model.GameId" />
+                <input type="text" name="saveName" placeholder="Save name..." />
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        }
+        <a href="/Games/New" class="btn btn-success">New Game</a>
+        <a href="/Games/List" class="btn btn-primary">Lobby</a>
+    </div>
+}
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}

@@ -1,0 +1,59 @@
+@page
+@model WebApp.Pages.Games.ListModel
+@{
+    ViewData["Title"] = "Load Game";
+}
+
+<h1>Saved Games</h1>
+
+@if (Model.Games.Count == 0)
+{
+    <p>No saved games. <a href="/Games/New">Start a new game</a>.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Board</th>
+                <th>Current Player</th>
+                <th>Saved At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Games)
+            {
+                var game = item.State;
+                var isOver = item.IsGameOver;
+
+                <tr>
+                    <td>@game.Name</td>
+                    <td>@game.Config.Rows x @game.Config.Columns</td>
+                    <td>@(isOver ? "Game Over" : $"Player {game.CurrentPlayer + 1}")</td>
+                    <td>@game.SavedAt.ToString("g")</td>
+                    <td>
+                        @if (!isOver)
+                        {
+                            <form method="post" asp-page-handler="Join" style="display:inline;">
+                                <input type="hidden" name="name" value="@game.Name" />
+                                <button type="submit" class="btn btn-success">Join</button>
+                            </form>
+                            <form method="post" asp-page-handler="Resume" style="display:inline;">
+                                <input type="hidden" name="name" value="@game.Name" />
+                                <button type="submit" class="btn btn-primary">Resume</button>
+                            </form>
+                        }
+                        <form method="post" asp-page-handler="Delete" style="display:inline;">
+                            <input type="hidden" name="name" value="@game.Name" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a href="/Games/New" class="btn btn-success">New Game</a>

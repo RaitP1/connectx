@@ -194,10 +194,11 @@ public sealed class GameController
 
                 var ai = new MinimaxAI(currentPlayerType.Difficulty ?? EAIDifficulty.Medium);
                 var col = ai.GetMove(brain, brain.CurrentPlayer);
+                _ui.AnimateDrop(brain, col);
                 brain.MakeMove(col);
 
                 if (brain.Config.Player1Type.IsAI && brain.Config.Player2Type.IsAI)
-                    Thread.Sleep(500);
+                    Thread.Sleep(300);
             }
             else
             {
@@ -205,6 +206,7 @@ public sealed class GameController
                 switch (input.Action)
                 {
                     case EPlayerAction.Move:
+                        _ui.AnimateDrop(brain, input.Column);
                         brain.MakeMove(input.Column);
                         break;
                     case EPlayerAction.Save:

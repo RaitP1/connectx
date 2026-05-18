@@ -13,6 +13,42 @@ public sealed class GameUI
 
     public void DrawBoard(GameBrain brain, GameConfig config)
     {
+        DrawBoardInternal(brain, config, ghostRow: -1, ghostCol: -1, ghostSymbol: "");
+    }
+
+    public void AnimateDrop(GameBrain brain, int column)
+    {
+        var landingRow = FindLandingRow(brain, column);
+        if (landingRow < 0) return;
+
+        var symbol = brain.CurrentPlayer == 0
+            ? brain.Config.Player1Symbol
+            : brain.Config.Player2Symbol;
+
+        for (var row = 0; row <= landingRow; row++)
+        {
+            Console.Clear();
+            ShowColumnSelector(column, brain.Columns);
+            DrawBoardInternal(brain, brain.Config, row, column, symbol);
+            ShowTurnIndicator(brain.Config, brain.CurrentPlayer);
+            Thread.Sleep(50);
+        }
+    }
+
+    private static int FindLandingRow(GameBrain brain, int column)
+    {
+        for (var row = brain.Rows - 1; row >= 0; row--)
+        {
+            if (brain.GetCell(row, column) is null)
+                return row;
+        }
+
+        return -1;
+    }
+
+    private void DrawBoardInternal(GameBrain brain, GameConfig config,
+        int ghostRow, int ghostCol, string ghostSymbol)
+    {
         _writer.Write("  ");
         for (var c = 0; c < brain.Columns; c++)
             _writer.Write($" {c + 1}  ");
@@ -26,13 +62,22 @@ public sealed class GameUI
             _writer.Write("  ");
             for (var c = 0; c < brain.Columns; c++)
             {
-                var cell = brain.GetCell(r, c);
-                var symbol = cell switch
+                string symbol;
+                if (r == ghostRow && c == ghostCol && brain.GetCell(r, c) is null)
                 {
-                    0 => config.Player1Symbol,
-                    1 => config.Player2Symbol,
-                    _ => " "
-                };
+                    symbol = ghostSymbol;
+                }
+                else
+                {
+                    var cell = brain.GetCell(r, c);
+                    symbol = cell switch
+                    {
+                        0 => config.Player1Symbol,
+                        1 => config.Player2Symbol,
+                        _ => " "
+                    };
+                }
+
                 _writer.Write($"| {symbol} ");
             }
             _writer.WriteLine("|");

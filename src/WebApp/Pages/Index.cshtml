@@ -1,0 +1,14 @@
+@page
+@model WebApp.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1>ConnectX</h1>
+<p>Welcome to ConnectX — a multiplayer Connect Four game.</p>
+
+<div style="display:flex; gap:1rem; margin-top:1.5rem;">
+    <a href="/Games/New" class="btn btn-primary">New Game</a>
+    <a href="/Games/List" class="btn btn-success">Load Game</a>
+    <a href="/Configs" class="btn btn-primary">Configurations</a>
+</div>

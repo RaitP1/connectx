@@ -1,0 +1,49 @@
+@page
+@model WebApp.Pages.Games.NewModel
+@{
+    ViewData["Title"] = "New Game";
+}
+
+<h1>New Game</h1>
+
+@if (Model.Configs.Count == 0)
+{
+    <p>No configurations available. <a href="/Configs/Create">Create one first</a>.</p>
+}
+else
+{
+    <p>Select a configuration to start a new game:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Board</th>
+                <th>Win</th>
+                <th>Topology</th>
+                <th>Players</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var config in Model.Configs)
+            {
+                <tr>
+                    <td>@config.Name</td>
+                    <td>@config.Rows x @config.Columns</td>
+                    <td>@config.WinCondition</td>
+                    <td>@config.Topology</td>
+                    <td>
+                        @(config.Player1Type.IsAI ? "AI" : "Human") vs
+                        @(config.Player2Type.IsAI ? "AI" : "Human")
+                    </td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="configName" value="@config.Name" />
+                            <button type="submit" class="btn btn-success">Start</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

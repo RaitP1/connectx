@@ -1,11 +1,15 @@
 ## ADDED Requirements
 
 ### Requirement: DI composition root
-`Program.cs` SHALL build a `ServiceCollection`, register all required services, and resolve the entry-point controller to run the application. The persistence backend SHALL be selectable by calling either `AddJsonPersistence()` or `AddEfPersistence(connectionString)`.
+`Program.cs` SHALL build a `ServiceCollection`, register all required services, and resolve the entry-point controller to run the application. The persistence backend SHALL default to `AddEfPersistence(connectionString)` to enable cross-app continuity. `AddJsonPersistence()` SHALL remain available as an alternative.
 
 #### Scenario: Application starts with all services registered
 - **WHEN** the application launches
-- **THEN** the chosen persistence method is called, ConsoleApp services are registered, and the game controller is resolved from the service provider
+- **THEN** EF persistence is configured by default, ConsoleApp services are registered, and the game controller is resolved from the service provider
+
+#### Scenario: Database created on first EF launch
+- **WHEN** the console app starts with EF persistence and no database exists
+- **THEN** the database SHALL be created via `EnsureCreated()`
 
 #### Scenario: Application starts with EF persistence
 - **WHEN** the application launches with `AddEfPersistence` configured

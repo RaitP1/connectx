@@ -2,21 +2,37 @@ using Application.Config.Interfaces;
 using ConsoleApp;
 using ConsoleApp.UI;
 using Infrastructure;
+using Infrastructure.Persistence.EF;
 using Microsoft.Extensions.DependencyInjection;
 
-var services = new ServiceCollection();
-services.AddJsonPersistence();
-// services.AddEfPersistence("Data Source=ConnectX.db");
+var useEf = !args.Contains("--json");
 
-services.AddSingleton<GameUI>();
-services.AddSingleton<GameController>();
+var services = new ServiceCollection();
+
+if (useEf)
+{
+    var dbDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "ConnectX");
+    Directory.CreateDirectory(dbDir);
+    var dbPath = Path.Combine(dbDir, "ConnectX.db");
+    services.AddEfPersistence($"Data Source={dbPath}");
+}
+else
+{
+    services.AddJsonPersistence();
+}
+
+services.AddScoped<GameUI>();
+services.AddScoped<GameController>();
 
 var provider = services.BuildServiceProvider();
-//    using (var scope = provider.CreateScope())
-//        scope.ServiceProvider.GetRequiredService<Infrastructure.Persistence.EF.AppDbContext>().Database.EnsureCreated();
+using (var scope = provider.CreateScope())
+{
+    if (useEf)
+        scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureCreated();
 
-var configRepo = provider.GetRequiredService<IConfigRepository>();
-DefaultConfigSeeder.Seed(configRepo);
+    var configRepo = scope.ServiceProvider.GetRequiredService<IConfigRepository>();
+    DefaultConfigSeeder.Seed(configRepo);
 
-var controller = provider.GetRequiredService<GameController>();
-controller.Run();
+    var controller = scope.ServiceProvider.GetRequiredService<GameController>();
+    controller.Run();
+}

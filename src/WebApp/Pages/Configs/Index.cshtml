@@ -1,0 +1,52 @@
+@page
+@model WebApp.Pages.Configs.IndexModel
+@{
+    ViewData["Title"] = "Configurations";
+}
+
+<h1>Configurations</h1>
+
+@if (Model.Configs.Count == 0)
+{
+    <p>No configurations found. <a href="/Configs/Create">Create one</a>.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Rows</th>
+                <th>Columns</th>
+                <th>Win Condition</th>
+                <th>Topology</th>
+                <th>Player 1</th>
+                <th>Player 2</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var config in Model.Configs)
+            {
+                <tr>
+                    <td>@config.Name</td>
+                    <td>@config.Rows</td>
+                    <td>@config.Columns</td>
+                    <td>@config.WinCondition</td>
+                    <td>@config.Topology</td>
+                    <td>@(config.Player1Type.IsAI ? $"AI ({config.Player1Type.Difficulty})" : "Human")</td>
+                    <td>@(config.Player2Type.IsAI ? $"AI ({config.Player2Type.Difficulty})" : "Human")</td>
+                    <td>
+                        <a asp-page="Edit" asp-route-name="@config.Name" class="btn btn-primary">Edit</a>
+                        <form method="post" asp-page-handler="Delete" style="display:inline;">
+                            <input type="hidden" name="name" value="@config.Name" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a href="/Configs/Create" class="btn btn-success">Create New Configuration</a>
