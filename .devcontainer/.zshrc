@@ -1,6 +1,9 @@
 # shellcheck shell=bash
 # Zsh configuration for Claude Code devcontainer
 
+# Enable true color support
+export COLORTERM=truecolor
+
 # Add Claude Code to PATH
 export PATH="$HOME/.local/bin:$PATH"
 
