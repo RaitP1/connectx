@@ -42,34 +42,34 @@ Every arrow points inward. Nothing points outward.
 
 Create the solution structure, project files, and dependency references. No game code yet — just the skeleton that enforces the architecture.
 
-- [ ] Create solution: `dotnet new sln -n ConnectX`
-- [ ] Create projects:
+- [x] Create solution: `dotnet new sln -n ConnectX`
+- [x] Create projects:
   - `dotnet new classlib -n Domain -o src/Domain`
   - `dotnet new classlib -n Application -o src/Application`
   - `dotnet new classlib -n Infrastructure -o src/Infrastructure`
   - `dotnet new console -n ConsoleApp -o src/ConsoleApp`
   - `dotnet new xunit -n ConnectX.Tests -o tests/ConnectX.Tests`
-- [ ] Add all projects to solution
-- [ ] Set up project references (dependency rule):
+- [x] Add all projects to solution
+- [x] Set up project references (dependency rule):
   - Application -> Domain
   - Infrastructure -> Application
   - ConsoleApp -> Application + Infrastructure
   - ConnectX.Tests -> Domain + Application + Infrastructure
-- [ ] Add NuGet packages:
+- [x] Add NuGet packages:
   - Infrastructure: `Microsoft.EntityFrameworkCore.Sqlite`, `Microsoft.EntityFrameworkCore.Design`
   - ConsoleApp: `Microsoft.EntityFrameworkCore.Sqlite` (for migrations CLI)
   - ConnectX.Tests: `xunit`, `Microsoft.NET.Test.Sdk`
-- [ ] Add `Directory.Build.props` for shared settings:
+- [x] Add `Directory.Build.props` for shared settings:
   - Target framework (net10.0)
   - `<Nullable>enable</Nullable>`
   - `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>` (course requirement)
   - `<ImplicitUsings>enable</ImplicitUsings>`
-- [ ] Write `ArchitectureTests.cs` — enforce dependency rule from day one:
+- [x] Write `ArchitectureTests.cs` — enforce dependency rule from day one:
   - Domain references no ConnectX projects
   - Application references only Domain
   - Infrastructure does not reference ConsoleApp or WebApp
-- [ ] Add `.gitignore` (dotnet template: `dotnet new gitignore`)
-- [ ] Run tests — all 3 architecture tests pass on empty projects
+- [x] Add `.gitignore` (dotnet template: `dotnet new gitignore`)
+- [x] Run tests — all 3 architecture tests pass on empty projects
 
 **Deliverable:** Empty solution where `dotnet build` and `dotnet test` pass. Architecture tests green.
 
@@ -77,39 +77,38 @@ Create the solution structure, project files, and dependency references. No game
 
 ## Phase 1: Domain — Core Game Engine
 
-Pure game rules. No persistence, no UI, no dependencies.
+Pure game rules. No persistence, no UI, no dependencies. Enums use `E` prefix, interfaces use `I` prefix.
 
-- [ ] `BoardTopology.cs` — enum: Rectangle, Cylinder
-- [ ] `AIDifficulty.cs` — enum: Easy, Medium, Hard
-- [ ] `PlayerType.cs` — value type: IsAI + Difficulty
-- [ ] `GameConfig.cs` — board dimensions, win condition, player names/symbols, topology, player types. `IsValid()` validation method
-- [ ] `GameBrain.cs` — the game engine:
+- [x] `EBoardTopology.cs` — enum: Rectangle, Cylinder
+- [x] `EAIDifficulty.cs` — enum: Easy, Medium, Hard
+- [x] `PlayerType.cs` — value type: IsAI + Difficulty
+- [x] `GameConfig.cs` — board dimensions, win condition, player names/symbols, topology, player types. `IsValid()` validation method
+- [x] `GameBrain.cs` — the game engine:
   - Constructor from GameConfig
   - `MakeMove(column)` — gravity drop, win check, draw check, player switch
   - `GetCell(row, col)` — read board state (with cylinder wrap)
   - `CheckWin(row, col)` — four-direction line scan
   - `WrapColumn(col)` — modulo arithmetic for cylinder topology
   - `IsColumnAvailable(column)`, `GetAvailableColumns()`
-  - `Clone()`, `UndoMove()`, `MakeMoveWithoutValidation()` — AI support
-  - `EvaluatePosition(player)` — position scoring heuristic
-- [ ] `IAIPlayer.cs` — interface: `GetMove(brain, player)`
-- [ ] `MinimaxAI.cs` — minimax with alpha-beta pruning, depth by difficulty (3/5/7)
-- [ ] Unit tests for Domain:
+  - `Clone()`, `UndoMove()` — AI support
+- [x] Unit tests for Domain:
   - Gravity drop works
   - Horizontal/vertical/diagonal win detection
   - Cylinder wrap-around win detection
   - Draw detection (full board)
   - Config validation
-  - AI returns valid moves
 
-**Deliverable:** Full game logic with tests. You could play a game programmatically in a test.
+**Deliverable:** Pure game logic with tests. You could play a game programmatically in a test.
 
 ---
 
-## Phase 2: Application — Interfaces, DTOs, Mapping
+## Phase 2: Application — AI, Interfaces, DTOs, Mapping
 
-Define the contracts that Infrastructure will implement. Keep it lean.
+AI logic, repository contracts, and DTOs. Depends only on Domain.
 
+- [x] `AI/IAIPlayer.cs` — interface: `GetMove(brain, player)`
+- [x] `AI/MinimaxAI.cs` — minimax with alpha-beta pruning, depth by difficulty (3/5/7)
+- [x] `AI/BoardEvaluator.cs` — static position scoring heuristic, reads board via GameBrain's public API
 - [ ] `Config/Interfaces/IConfigRepository.cs`:
   - `List()`, `Save(GameConfig)`, `Load(id)`, `Delete(id)`
 - [ ] `Game/Interfaces/IGameRepository.cs`:
@@ -121,10 +120,12 @@ Define the contracts that Infrastructure will implement. Keep it lean.
   - `ToDomain(GameStateDto)` — reconstruct GameBrain from DTO
 - [ ] `ServiceCollectionExtensions.cs` — registers Application-level services (mapper)
 - [ ] Unit tests:
-  - Mapper round-trip: brain -> DTO -> brain produces identical state
-  - Mapper preserves cylinder topology, player types, current player
+  - [x] AI returns valid moves, blocks wins, takes winning moves
+  - [x] Board evaluator scores positions correctly
+  - [ ] Mapper round-trip: brain -> DTO -> brain produces identical state
+  - [ ] Mapper preserves cylinder topology, player types, current player
 
-**Deliverable:** Clean contracts. No implementation yet, but the shape is defined.
+**Deliverable:** AI opponent, clean contracts, and mapping. No persistence implementation yet.
 
 ---
 
@@ -269,8 +270,8 @@ ASP.NET Core Razor Pages + SignalR for real-time play.
 | Phase | What                  | Key Output                       |
 | ----- | --------------------- | -------------------------------- |
 | 0     | Scaffolding           | Empty solution, arch tests green |
-| 1     | Domain                | Game engine + AI with unit tests |
-| 2     | Application           | Interfaces, DTOs, mapper         |
+| 1     | Domain                | Game engine with unit tests      |
+| 2     | Application           | AI, interfaces, DTOs, mapper     |
 | 3     | Infrastructure (JSON) | File-based persistence           |
 | 4     | ConsoleApp            | Playable console game            |
 | 5     | Infrastructure (EF)   | SQLite persistence, swappable    |

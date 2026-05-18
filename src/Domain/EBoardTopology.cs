@@ -1,6 +1,6 @@
 namespace Domain;
 
-public enum BoardTopology
+public enum EBoardTopology
 {
     Rectangle,
     Cylinder

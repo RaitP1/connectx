@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Board topology types
-The system SHALL support two board topologies: Rectangle and Cylinder, represented as an enum `BoardTopology`.
+The system SHALL support two board topologies: Rectangle and Cylinder, represented as an enum `EBoardTopology`.
 
 #### Scenario: Rectangle topology exists
 - **WHEN** a game is configured with Rectangle topology
@@ -12,7 +12,7 @@ The system SHALL support two board topologies: Rectangle and Cylinder, represent
 - **THEN** the board wraps horizontally so the leftmost and rightmost columns are adjacent
 
 ### Requirement: AI difficulty levels
-The system SHALL support three AI difficulty levels: Easy, Medium, and Hard, represented as an enum `AIDifficulty`.
+The system SHALL support three AI difficulty levels: Easy, Medium, and Hard, represented as an enum `EAIDifficulty`.
 
 #### Scenario: All difficulty levels available
 - **WHEN** configuring an AI player

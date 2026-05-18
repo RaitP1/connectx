@@ -149,7 +149,7 @@ The system SHALL support undoing the last move via `UndoMove()`, restoring the p
 - **THEN** it SHALL have no effect or return false
 
 ### Requirement: Position evaluation
-The system SHALL provide an `EvaluatePosition(player)` method that returns a numeric score reflecting how favorable the board position is for the given player.
+The system SHALL provide a `BoardEvaluator.EvaluatePosition(brain, player)` static method in `Application.AI` that returns a numeric score reflecting how favorable the board position is for the given player. It reads board state through GameBrain's public API.
 
 #### Scenario: Winning position scores highest
 - **WHEN** EvaluatePosition is called for a player who has already won

@@ -18,7 +18,7 @@ public class ArchitectureTests
     [Fact]
     public void Domain_References_No_ConnectX_Projects()
     {
-        var domainAssembly = typeof(Domain.DomainMarker).Assembly;
+        var domainAssembly = typeof(global::Domain.DomainMarker).Assembly;
         var references = GetConnectXReferences(domainAssembly);
 
         Assert.Empty(references);
@@ -27,7 +27,7 @@ public class ArchitectureTests
     [Fact]
     public void Application_References_Only_Domain()
     {
-        var applicationAssembly = typeof(Application.ApplicationMarker).Assembly;
+        var applicationAssembly = typeof(global::Application.ApplicationMarker).Assembly;
         var references = GetConnectXReferences(applicationAssembly);
 
         Assert.Equal(new HashSet<string> { "Domain" }, references);

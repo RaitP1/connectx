@@ -1,6 +1,6 @@
 namespace Domain;
 
-public enum AIDifficulty
+public enum EAIDifficulty
 {
     Easy,
     Medium,

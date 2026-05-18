@@ -1,3 +1,3 @@
 namespace Domain;
 
-public sealed record PlayerType(bool IsAI, AIDifficulty? Difficulty = null);
+public sealed record PlayerType(bool IsAI, EAIDifficulty? Difficulty = null);

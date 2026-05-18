@@ -2,7 +2,7 @@
 
 The Domain project is empty (only a marker class). Phase 0 established the solution skeleton with architecture tests enforcing the dependency rule. The Domain layer must remain pure — zero references to other ConnectX projects or external frameworks.
 
-The roadmap requires: game configuration, a gravity-based game engine with rectangle and cylinder topologies, win/draw detection, and an AI opponent with minimax alpha-beta pruning.
+The roadmap requires: game configuration, a gravity-based game engine with rectangle and cylinder topologies, win/draw detection, and an AI opponent with minimax alpha-beta pruning. AI and position evaluation live in Application/AI per Clean Architecture — they are application-level strategy, not core game rules.
 
 ## Goals / Non-Goals
 
@@ -39,6 +39,13 @@ The roadmap requires: game configuration, a gravity-based game engine with recta
 - Early-exit on first win found
 - Alternative: full-board scan — rejected; O(board) per move vs O(winCondition) per move
 
+**AI and evaluation in Application/AI, not Domain**
+- AI is application-level strategy that uses domain rules, not a core game rule itself
+- `IAIPlayer` interface, `MinimaxAI`, and `BoardEvaluator` live in `Application.AI` namespace
+- `BoardEvaluator` reads board state through GameBrain's public API (`GetCell`, `WrapColumn`, `Config`)
+- MinimaxAI uses `MakeMove` (public) instead of a special internal fast path — the validation overhead is negligible
+- Alternative: keep AI in Domain — rejected; it violates the principle that Domain contains only core business rules
+
 **AI: minimax with alpha-beta pruning, depth controlled by difficulty enum**
 - Easy = depth 3, Medium = depth 5, Hard = depth 7
 - Position evaluation heuristic scores open lines of consecutive pieces
@@ -50,6 +57,10 @@ The roadmap requires: game configuration, a gravity-based game engine with recta
 - `UndoMove` pops and clears the cell, switches player back
 - Keeps undo O(1) without needing to snapshot the full board
 - AI uses clone + undo for its search tree
+
+**Enum naming: E prefix convention**
+- All enums use the `E` prefix: `EBoardTopology`, `EAIDifficulty`
+- Interfaces use the `I` prefix (standard C# convention): `IAIPlayer`
 
 ## Risks / Trade-offs
 
