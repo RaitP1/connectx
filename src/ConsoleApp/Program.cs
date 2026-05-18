@@ -6,10 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
 services.AddJsonPersistence();
+// services.AddEfPersistence("Data Source=ConnectX.db");
+
 services.AddSingleton<GameUI>();
 services.AddSingleton<GameController>();
 
 var provider = services.BuildServiceProvider();
+//    using (var scope = provider.CreateScope())
+//        scope.ServiceProvider.GetRequiredService<Infrastructure.Persistence.EF.AppDbContext>().Database.EnsureCreated();
 
 var configRepo = provider.GetRequiredService<IConfigRepository>();
 DefaultConfigSeeder.Seed(configRepo);
