@@ -155,7 +155,7 @@ First persistence backend. File-based, no database.
 
 Wire everything together into a playable console application.
 
-- [ ] `UI/Menu.cs` + `UI/MenuItem.cs` — console menu system:
+- [x] `UI/Menu.cs` + `UI/MenuItem.cs` — console menu system:
   - Unlimited depth of nested submenus with breadcrumb navigation
   - Level-aware navigation items:
     - Level 1: Exit only
@@ -166,29 +166,29 @@ Wire everything together into a playable console application.
   - **Updateable labels** — menu items can refresh their display text (e.g., "Board Width [7]" -> "Board Width [10]" after user changes it)
   - **Hot key uniqueness validation** — reject duplicate keys at registration time
   - User action callbacks via `Func<string>` delegates
-- [ ] `UI/GameUI.cs` — board rendering and input:
+- [x] `UI/GameUI.cs` — board rendering and input:
   - `DrawBoard()` — ASCII grid with column numbers and player symbols
   - `GetPlayerMove()` — arrow key column selection, S to save, Q to quit
   - `AnimateDrop()` — optional drop animation
   - `ShowGameOver()` — winner/draw display
-- [ ] `GameController.cs` — orchestrates menus, game loop, persistence:
+- [x] `GameController.cs` — orchestrates menus, game loop, persistence:
   - `StartNewGame()`, `PlayGame()` — game loop with AI support
   - `SaveCurrentGame()`, `LoadAndContinueGame()`, `DeleteSavedGame()`
   - `SaveConfiguration()`, `LoadConfiguration()`, `DeleteConfiguration()`
   - `ChangeBoardWidth/Height/WinCondition/Topology()`
   - `ConfigurePlayer1Type/Player2Type()`, `SelectGameMode()`
   - `ViewCurrentSettings()`, `ShowHowToPlay()`
-- [ ] Precreated configurations — ship default presets on first launch:
+- [x] Precreated configurations — ship default presets on first launch:
   - "Classical" — 7x6 board, connect 4, rectangle
   - "Connect-3" — 5x4 board, connect 3, rectangle
   - "Connect-5" — 9x7 board, connect 5, rectangle
   - "Connect-4 Cylinder" — 7x6 board, connect 4, cylinder
   - Seed via `IConfigRepository.Save()` if config list is empty on startup
-- [ ] `Program.cs` — entry point + DI wiring:
+- [x] `Program.cs` — entry point + DI wiring:
   - `services.AddJsonPersistence()`
   - Seed default configs if none exist
   - Build menu tree, run menu loop
-- [ ] Manual testing: play full games (HvH, HvAI, AIvAI), save/load mid-game, manage configs
+- [x] Manual testing: play full games (HvH, HvAI, AIvAI), save/load mid-game, manage configs
 
 **Deliverable:** Fully functional console game. Feature parity with original `hyper-connectx` ConsoleApp.
 
