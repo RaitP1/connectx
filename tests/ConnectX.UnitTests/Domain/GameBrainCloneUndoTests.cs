@@ -5,6 +5,7 @@ namespace ConnectX.UnitTests.Domain;
 public class GameBrainCloneUndoTests
 {
     private static GameConfig StandardConfig() => new(
+        Name: "Test",
         Rows: 6,
         Columns: 7,
         WinCondition: 4,

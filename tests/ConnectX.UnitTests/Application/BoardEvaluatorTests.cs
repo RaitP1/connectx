@@ -6,6 +6,7 @@ namespace ConnectX.UnitTests.Application;
 public class BoardEvaluatorTests
 {
     private static GameConfig StandardConfig() => new(
+        Name: "Test",
         Rows: 6,
         Columns: 7,
         WinCondition: 4,

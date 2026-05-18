@@ -5,6 +5,7 @@ namespace ConnectX.UnitTests.Domain;
 public class GameBrainTests
 {
     private static GameConfig StandardConfig(EBoardTopology topology = EBoardTopology.Rectangle) => new(
+        Name: "Test",
         Rows: 6,
         Columns: 7,
         WinCondition: 4,

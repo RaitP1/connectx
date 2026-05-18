@@ -1,6 +1,7 @@
 namespace Domain;
 
 public sealed record GameConfig(
+    string Name,
     int Rows,
     int Columns,
     int WinCondition,
@@ -14,6 +15,9 @@ public sealed record GameConfig(
 {
     public bool IsValid()
     {
+        if (string.IsNullOrWhiteSpace(Name))
+            return false;
+
         if (Rows <= 0 || Columns <= 0)
             return false;
 

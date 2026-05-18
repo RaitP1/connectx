@@ -5,6 +5,7 @@ namespace ConnectX.UnitTests.Domain;
 public class GameConfigTests
 {
     private static GameConfig CreateValid() => new(
+        Name: "Test",
         Rows: 6,
         Columns: 7,
         WinCondition: 4,
@@ -79,6 +80,16 @@ public class GameConfigTests
     public void IsValid_ReturnsFalseForEmptyOrWhitespaceNames(string name1, string name2)
     {
         var config = CreateValid() with { Player1Name = name1, Player2Name = name2 };
+
+        Assert.False(config.IsValid());
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    public void IsValid_ReturnsFalseForEmptyOrWhitespaceName(string name)
+    {
+        var config = CreateValid() with { Name = name };
 
         Assert.False(config.IsValid());
     }

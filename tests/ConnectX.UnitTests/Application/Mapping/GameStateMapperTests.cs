@@ -7,6 +7,7 @@ namespace ConnectX.UnitTests.Application.Mapping;
 public sealed class GameStateMapperTests
 {
     private static GameConfig StandardConfig(EBoardTopology topology = EBoardTopology.Rectangle) => new(
+        Name: "Test",
         Rows: 6,
         Columns: 7,
         WinCondition: 4,
