@@ -24,12 +24,29 @@ public sealed class GameBrain
         _currentPlayer = 0;
     }
 
-    private GameBrain(GameConfig config, int?[,] board, int currentPlayer, Stack<(int, int)> history)
+    internal GameBrain(GameConfig config, int?[,] board, int currentPlayer, Stack<(int, int)> history)
     {
         _config = config;
         _board = board;
         _currentPlayer = currentPlayer;
         _moveHistory = history;
+        RecalculateGameState();
+    }
+
+    private void RecalculateGameState()
+    {
+        for (var r = 0; r < Rows; r++)
+        for (var c = 0; c < Columns; c++)
+        {
+            if (_board[r, c] is not null && CheckWin(r, c))
+            {
+                _winner = _board[r, c];
+                return;
+            }
+        }
+
+        if (IsBoardFull())
+            _isDraw = true;
     }
 
     public int? GetCell(int row, int col)

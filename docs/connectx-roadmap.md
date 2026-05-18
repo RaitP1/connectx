@@ -109,21 +109,21 @@ AI logic, repository contracts, and DTOs. Depends only on Domain.
 - [x] `AI/IAIPlayer.cs` — interface: `GetMove(brain, player)`
 - [x] `AI/MinimaxAI.cs` — minimax with alpha-beta pruning, depth by difficulty (3/5/7)
 - [x] `AI/BoardEvaluator.cs` — static position scoring heuristic, reads board via GameBrain's public API
-- [ ] `Config/Interfaces/IConfigRepository.cs`:
+- [x] `Config/Interfaces/IConfigRepository.cs`:
   - `List()`, `Save(GameConfig)`, `Load(id)`, `Delete(id)`
-- [ ] `Game/Interfaces/IGameRepository.cs`:
+- [x] `Game/Interfaces/IGameRepository.cs`:
   - `List()`, `Save(GameStateDto)`, `Load(id)`, `Delete(id)`
-- [ ] `Game/Dto/GameStateDto.cs`:
+- [x] `Game/Dto/GameStateDto.cs`:
   - Name, Config (as GameConfig), Board (as `int?[][]` jagged array), CurrentPlayer, SavedAt
-- [ ] `Game/Mapping/GameStateMapper.cs`:
+- [x] `Game/Mapping/GameStateMapper.cs`:
   - `ToDto(GameBrain, string name)` — snapshot brain into DTO
   - `ToDomain(GameStateDto)` — reconstruct GameBrain from DTO
-- [ ] `ServiceCollectionExtensions.cs` — registers Application-level services (mapper)
-- [ ] Unit tests:
+- [x] `ServiceCollectionExtensions.cs` — registers Application-level services (mapper)
+- [x] Unit tests:
   - [x] AI returns valid moves, blocks wins, takes winning moves
   - [x] Board evaluator scores positions correctly
-  - [ ] Mapper round-trip: brain -> DTO -> brain produces identical state
-  - [ ] Mapper preserves cylinder topology, player types, current player
+  - [x] Mapper round-trip: brain -> DTO -> brain produces identical state
+  - [x] Mapper preserves cylinder topology, player types, current player
 
 **Deliverable:** AI opponent, clean contracts, and mapping. No persistence implementation yet.
 

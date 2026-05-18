@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("ConnectX.Tests")]
+[assembly: InternalsVisibleTo("ConnectX.UnitTests")]
 
 namespace Application;
 
