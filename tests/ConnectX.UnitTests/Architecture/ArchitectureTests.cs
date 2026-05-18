@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Tests;
+namespace ConnectX.UnitTests.Architecture;
 
 public class ArchitectureTests
 {
