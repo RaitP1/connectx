@@ -60,7 +60,7 @@ Create the solution structure, project files, and dependency references. No game
   - ConsoleApp: `Microsoft.EntityFrameworkCore.Sqlite` (for migrations CLI)
   - ConnectX.Tests: `xunit`, `Microsoft.NET.Test.Sdk`
 - [ ] Add `Directory.Build.props` for shared settings:
-  - Target framework (net9.0)
+  - Target framework (net10.0)
   - `<Nullable>enable</Nullable>`
   - `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>` (course requirement)
   - `<ImplicitUsings>enable</ImplicitUsings>`
