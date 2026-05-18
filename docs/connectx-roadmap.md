@@ -133,16 +133,16 @@ AI logic, repository contracts, and DTOs. Depends only on Domain.
 
 First persistence backend. File-based, no database.
 
-- [ ] `Persistence/Json/FilesystemHelper.cs` — resolve `~/ConnectX/config/` and `~/ConnectX/savegames/`
-- [ ] `Persistence/Json/JsonConfigRepository.cs` — implements `IConfigRepository`:
+- [x] `Persistence/Json/FilesystemHelper.cs` — resolve `~/ConnectX/config/` and `~/ConnectX/savegames/`
+- [x] `Persistence/Json/JsonConfigRepository.cs` — implements `IConfigRepository`:
   - Save as `{name}.json` with `System.Text.Json`
   - Filename sanitization + path traversal protection
-- [ ] `Persistence/Json/JsonGameRepository.cs` — implements `IGameRepository`:
+- [x] `Persistence/Json/JsonGameRepository.cs` — implements `IGameRepository`:
   - Save as `{name}_{timestamp}.json`
   - Same security: sanitize filenames, validate paths stay in allowed directory
-- [ ] `ServiceCollectionExtensions.cs`:
+- [x] `ServiceCollectionExtensions.cs`:
   - `AddJsonPersistence()` — registers JSON repo implementations
-- [ ] Integration tests:
+- [x] Integration tests:
   - Save/load/list/delete config round-trip
   - Save/load/list/delete game state round-trip
   - Filename sanitization works (special chars stripped)
