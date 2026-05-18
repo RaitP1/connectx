@@ -1,0 +1,30 @@
+@model WebApp.Models.PlayViewModel
+@{
+    ViewData["Title"] = "Playing";
+    var currentPlayerName = Model.CurrentPlayer == 0 ? Model.Config.Player1Name : Model.Config.Player2Name;
+    var currentPlayerSymbol = Model.CurrentPlayer == 0 ? Model.Config.Player1Symbol : Model.Config.Player2Symbol;
+}
+
+<h1>@Model.Config.Name</h1>
+
+@if (Model.Message is not null)
+{
+    <div class="message">@Model.Message</div>
+}
+
+@if (TempData["Message"] is string tempMessage)
+{
+    <div class="message success">@tempMessage</div>
+}
+
+<div class="turn-indicator">
+    <span class="player-dot player-@Model.CurrentPlayer"></span>
+    @currentPlayerName (@currentPlayerSymbol)'s turn
+</div>
+
+<partial name="_Board" model="Model" />
+
+<div class="game-actions">
+    <a asp-action="Save" class="btn">Save Game</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Quit</a>
+</div>

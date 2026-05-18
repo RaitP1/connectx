@@ -1,0 +1,29 @@
+@model WebApp.Models.PlayViewModel
+@{
+    ViewData["Title"] = "Game Over";
+}
+
+<h1>Game Over</h1>
+
+<div class="game-result">
+    @if (Model.IsDraw)
+    {
+        <p class="result-text">It's a draw!</p>
+    }
+    else if (Model.Winner is not null)
+    {
+        var winnerName = Model.Winner == 0 ? Model.Config.Player1Name : Model.Config.Player2Name;
+        var winnerSymbol = Model.Winner == 0 ? Model.Config.Player1Symbol : Model.Config.Player2Symbol;
+        <p class="result-text">
+            <span class="player-dot player-@Model.Winner"></span>
+            @winnerName (@winnerSymbol) wins!
+        </p>
+    }
+</div>
+
+<partial name="_Board" model="Model" />
+
+<div class="game-actions">
+    <a asp-action="New" class="btn">New Game</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Home</a>
+</div>

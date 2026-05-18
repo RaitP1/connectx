@@ -1,0 +1,309 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Navbar */
+.navbar {
+    background: #1a237e;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navbar-brand {
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-nav a {
+    color: #cfd8dc;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.navbar-nav a:hover {
+    color: #fff;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: #1a237e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.btn:hover {
+    background: #283593;
+}
+
+.btn-secondary {
+    background: #757575;
+}
+
+.btn-secondary:hover {
+    background: #616161;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #c62828;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    padding: 0;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.4rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+legend {
+    font-weight: 700;
+    padding: 0 0.5rem;
+}
+
+.validation-summary {
+    color: #c62828;
+    margin-bottom: 1rem;
+}
+
+/* Tables */
+.config-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.config-table th,
+.config-table td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.config-table th {
+    background: #e8eaf6;
+    font-weight: 600;
+}
+
+/* Config cards */
+.config-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.config-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+.config-card h3 {
+    margin: 0 0 0.5rem;
+}
+
+.config-card p {
+    color: #666;
+    margin: 0 0 0.75rem;
+    font-size: 0.9rem;
+}
+
+/* Home */
+.home-links {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+/* Messages */
+.message {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    background: #fff3e0;
+    border: 1px solid #ffe0b2;
+}
+
+.message.success {
+    background: #e8f5e9;
+    border-color: #c8e6c9;
+}
+
+/* Board */
+.board {
+    border-collapse: separate;
+    border-spacing: 4px;
+    background: #1a237e;
+    padding: 8px;
+    border-radius: 8px;
+    margin: 1rem auto;
+}
+
+.board th {
+    padding: 0;
+}
+
+.column-form {
+    margin: 0;
+}
+
+.column-btn {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px;
+    opacity: 0.6;
+    transition: opacity 0.15s;
+}
+
+.column-btn:hover {
+    opacity: 1;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    background: #1a237e;
+}
+
+.cell .piece {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    margin: 4px auto;
+}
+
+.cell.empty .piece {
+    background: #e8eaf6;
+}
+
+.cell.player-0 .piece {
+    background: #e53935;
+}
+
+.cell.player-1 .piece {
+    background: #fdd835;
+}
+
+/* Turn indicator */
+.turn-indicator {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.player-dot {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+}
+
+.player-dot.player-0 {
+    background: #e53935;
+}
+
+.player-dot.player-1 {
+    background: #fdd835;
+}
+
+/* Game result */
+.game-result {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.result-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.game-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}

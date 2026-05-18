@@ -1,0 +1,10 @@
+@model WebApp.Models.ConfigFormModel
+@{
+    ViewData["Title"] = "Edit Configuration";
+    ViewData["FormAction"] = "Edit";
+    ViewData["RouteId"] = Model.Name;
+}
+
+<h1>Edit Configuration</h1>
+
+<partial name="_ConfigForm" model="Model" view-data="ViewData" />

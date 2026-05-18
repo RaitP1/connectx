@@ -42,4 +42,13 @@ public class ArchitectureTests
         Assert.DoesNotContain("ConsoleApp", references);
         Assert.DoesNotContain("WebApp", references);
     }
+
+    [Fact]
+    public void WebApp_References_Only_Domain_Application_Infrastructure()
+    {
+        var webAppAssembly = typeof(WebApp.DefaultConfigSeeder).Assembly;
+        var references = GetConnectXReferences(webAppAssembly);
+
+        Assert.Equal(new HashSet<string> { "Domain", "Application", "Infrastructure" }, references);
+    }
 }

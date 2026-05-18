@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Save Game";
+}
+
+<h1>Save Game</h1>
+
+<form asp-action="Save" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="saveName">Save Name</label>
+        <input type="text" id="saveName" name="saveName" required />
+    </div>
+    <button type="submit" class="btn">Save</button>
+    <a asp-action="Play" class="btn btn-secondary">Cancel</a>
+</form>
